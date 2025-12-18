@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Clock</title> <!-- Stealth Title -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <!-- STEALTH MODE: Looks like a simple Clock App -->
+    <div id="stealthMode" class="mode-container stealth-active">
+        <div class="clock-display">
+            <h1 id="currentTime">12:00</h1>
+            <p id="currentDate">Wednesday, Oct 24</p>
+        </div>
+        <div class="stealth-hint">Double tap anywhere to unlock</div>
+    </div>
+
+    <!-- PANIC MODE: The Real Safety App -->
+    <div id="panicMode" class="mode-container hidden">
+        <header class="panic-header">
+            <h2>🚨 EMERGENCY</h2>
+            <button id="exitPanicBtn" class="exit-btn">Exit</button>
+        </header>
+
+        <div class="sos-section">
+            <button id="sosBtn" class="sos-btn">
+                <span>SOS</span>
+                <div class="pulse-ring"></div>
+            </button>
+            <p class="status-text" id="statusText">Tap to Share Live Location</p>
+        </div>
+
+        <div class="tools-grid">
+            <button class="tool-card" id="sirenBtn">
+                <span class="icon">📢</span>
+                <span>Siren</span>
+            </button>
+            <button class="tool-card" id="fakeCallBtn">
+                <span class="icon">📞</span>
+                <span>Fake Call</span>
+            </button>
+            <button class="tool-card" id="safeMapBtn">
+                <span class="icon">🏥</span>
+                <span>Safe Map</span>
+            </button>
+            <button class="tool-card" id="whistleBtn">
+                <span class="icon">🔦</span>
+                <span>Whistle</span>
+            </button>
+        </div>
+
+        <!-- Hidden Map Container for fetching location or Safe Map -->
+        <div id="mapModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Safe Zones Nearby</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <!-- Fake Call Screen -->
+        <div id="callScreen" class="call-screen hidden">
+            <div class="caller-info">
+                <div class="caller-avatar">P</div>
+                <h1>Papa</h1>
+                <p>Mobile</p>
+            </div>
+            <div class="call-actions">
+                <button class="decline-btn">Decline</button>
+                <button class="accept-btn">Accept</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/siren.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

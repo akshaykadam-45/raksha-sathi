@@ -1,0 +1,314 @@
+:root {
+    --bg-stealth: #000000;
+    --text-stealth: #333333;
+    --bg-panic: #1a1a1a;
+    --primary-red: #ff3b3b;
+    --alert-orange: #ff9f1c;
+    --text-white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-stealth);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* MODES */
+.mode-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* STEALTH MODE */
+.stealth-active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-stealth);
+    color: #444;
+}
+
+.clock-display h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 5rem;
+    color: #555;
+    font-weight: 400;
+}
+
+.clock-display p {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: -10px;
+    color: #333;
+}
+
+.stealth-hint {
+    position: absolute;
+    bottom: 30px;
+    font-size: 0.8rem;
+    opacity: 0.2;
+}
+
+/* PANIC MODE */
+#panicMode {
+    background-color: var(--bg-panic);
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.panic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.panic-header h2 {
+    color: var(--primary-red);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.exit-btn {
+    background: #333;
+    border: none;
+    color: #888;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* SOS BUTTON */
+.sos-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.sos-btn {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--primary-red);
+    border: 8px solid #990000;
+    color: white;
+    font-size: 3rem;
+    font-weight: 900;
+    box-shadow: 0 0 50px rgba(255, 59, 59, 0.4);
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sos-btn:active {
+    transform: scale(0.95);
+    background: #cc0000;
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid var(--primary-red);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.status-text {
+    margin-top: 20px;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* TOOLS GRID */
+.tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tool-card {
+    background: #2a2a2a;
+    border: none;
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.tool-card:active {
+    background: #333;
+}
+
+.icon {
+    font-size: 1.5rem;
+}
+
+#sirenBtn.active {
+    background: var(--alert-orange);
+    color: black;
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* FAKE CALL SCREEN */
+.call-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #2c3e50, #000);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.caller-info h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 10px 0;
+    color: white;
+}
+
+.caller-avatar {
+    width: 100px;
+    height: 100px;
+    background: #999;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.call-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.decline-btn,
+.accept-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.decline-btn {
+    background: #ff3b30;
+}
+
+.accept-btn {
+    background: #4cd964;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #222;
+    width: 90%;
+    height: 80%;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    background: #333;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+#map {
+    flex: 1;
+}
