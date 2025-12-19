@@ -173,14 +173,26 @@ function triggerSms(phone, message) {
 // --- QUICK NAV LOGIC ---
 if (policeBtn) {
     policeBtn.addEventListener('click', () => {
-        // Opens Google Maps searching for nearest police station
-        window.open("https://www.google.com/maps/search/police+station+near+me", "_blank");
+        if (currentLocation) {
+            const { latitude, longitude } = currentLocation.coords;
+            // Force search around SPECIFIC coordinates
+            window.open(`https://www.google.com/maps/search/police+station/@${latitude},${longitude},15z`, "_blank");
+        } else {
+            // Fallback if no GPS yet
+            window.open("https://www.google.com/maps/search/police+station+near+me", "_blank");
+        }
     });
 }
 
 if (hospitalBtn) {
     hospitalBtn.addEventListener('click', () => {
-        // Opens Google Maps searching for nearest hospital
-        window.open("https://www.google.com/maps/search/hospital+near+me", "_blank");
+        if (currentLocation) {
+            const { latitude, longitude } = currentLocation.coords;
+            // Force search around SPECIFIC coordinates
+            window.open(`https://www.google.com/maps/search/hospital/@${latitude},${longitude},15z`, "_blank");
+        } else {
+            // Fallback
+            window.open("https://www.google.com/maps/search/hospital+near+me", "_blank");
+        }
     });
 }
