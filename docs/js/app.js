@@ -42,36 +42,68 @@ function startLocationTracking() {
 
 
     const gpsDot = document.getElementById('gpsDot');
-    statusText.innerText = "Acquiring precise location...";
+    statusText.innerText = "Acquiring location...";
     gpsDot.className = 'gps-dot gps-searching';
 
+    // 1. Try Fast/Coarse location first (helps with "Stuck" issues)
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            currentLocation = pos;
+            console.log("Coarse fix acquired");
+            updateGpsStatus(pos);
+        },
+        (err) => {
+            console.warn("Coarse GPS failed, moving to high-accuracy", err);
+        },
+        { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
+    );
+
+    // 2. Start Precise Tracking (continuously)
     watchId = navigator.geolocation.watchPosition(
         (position) => {
             currentLocation = position;
-            const accuracy = Math.round(position.coords.accuracy);
-            let icon = "⚠️";
-
-            // Update Text
-            statusText.innerText = `GPS Active (Acc: ${accuracy}m)`;
-
-            // Update Dot
-            if (accuracy < 50) {
-                gpsDot.className = 'gps-dot gps-active'; // Green
-            } else {
-                gpsDot.className = 'gps-dot gps-searching'; // Orange (if weak)
-            }
+            updateGpsStatus(position);
         },
         (err) => {
-            console.warn("GPS Error:", err);
-            statusText.innerText = "GPS Lost. Using Approx.";
-            gpsDot.className = 'gps-dot'; // Reset to grey
+            console.warn("GPS Watch Error:", err);
+            handleGpsError(err);
         },
         {
             enableHighAccuracy: true,
-            timeout: 60000, // Increased to 60s for "Cold Fix" (Offline)
-            maximumAge: 0   // Always want fresh data
+            timeout: 60000,
+            maximumAge: 0
         }
     );
+}
+
+function updateGpsStatus(position) {
+    const gpsDot = document.getElementById('gpsDot');
+    const accuracy = Math.round(position.coords.accuracy);
+    statusText.innerText = `GPS Active (Acc: ${accuracy}m)`;
+
+    // Update Dot Color
+    if (accuracy < 30) gpsDot.className = 'gps-dot gps-active'; // Green (Precise)
+    else gpsDot.className = 'gps-dot gps-searching'; // Orange (Weak)
+}
+
+function handleGpsError(err) {
+    const gpsDot = document.getElementById('gpsDot');
+    gpsDot.className = 'gps-dot'; // Reset
+
+    switch (err.code) {
+        case err.PERMISSION_DENIED:
+            statusText.innerText = "❌ Location Permission Denied!";
+            alert("⚠️ Please Enable Location Permissions in your Browser Settings.");
+            break;
+        case err.POSITION_UNAVAILABLE:
+            statusText.innerText = "❌ Signal Weak / Unavailable";
+            break;
+        case err.TIMEOUT:
+            statusText.innerText = "⚠️ GPS Timeout. Retry?";
+            break;
+        default:
+            statusText.innerText = "❌ GPS Error";
+    }
 }
 
 function stopLocationTracking() {
