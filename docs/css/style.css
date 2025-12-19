@@ -159,6 +159,54 @@ body {
     font-size: 0.9rem;
 }
 
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.status-container .status-text {
+    margin: 0;
+}
+
+.gps-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #555;
+    /* Default Idle */
+    box-shadow: 0 0 5px #555;
+    transition: background-color 0.3s;
+}
+
+.gps-active {
+    background-color: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation: blink 1s infinite;
+}
+
+.gps-searching {
+    background-color: #ff9f1c;
+    box-shadow: 0 0 10px #ff9f1c;
+    animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /* TOOLS GRID */
 .tools-grid {
     display: grid;
@@ -186,6 +234,12 @@ body {
 
 .icon {
     font-size: 1.5rem;
+}
+
+.svg-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
 }
 
 #sirenBtn.active {
