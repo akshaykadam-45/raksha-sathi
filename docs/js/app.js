@@ -68,8 +68,8 @@ function startLocationTracking() {
         },
         {
             enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
+            timeout: 60000, // Increased to 60s for "Cold Fix" (Offline)
+            maximumAge: 0   // Always want fresh data
         }
     );
 }
